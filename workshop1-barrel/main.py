@@ -24,7 +24,7 @@ def _publish_bytes(self, topic, msg, retain=False, qos=0):
     return _umqtt_publish(self, topic, msg, retain, qos)
 MQTTClient.publish = _publish_bytes
 
-VERSION = "workshop1-barrel-2026-11-15b"          # bump this in every new main.py you publish
+VERSION = "workshop1-barrel-2026-11-15c"          # bump this in every new main.py you publish
 
 # ---------------- CONFIG ----------------
 # Wi-Fi networks and MQTT login live in secrets.py on the Pico, so updating

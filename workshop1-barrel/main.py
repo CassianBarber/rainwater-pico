@@ -1,7 +1,7 @@
 # Workshop 1 barrel node - Pico 2 W, MicroPython, MQTT with Home Assistant discovery
 # Barrel level + pump control (MOSFET on GP15), with settings controlled from Home Assistant.
-# STAGE 1: the control logic runs and reports what it would do, but the pump output is
-# DISABLED (GP15 held low) until PUMP_OUTPUT_ENABLED is set True in a deliberate update.
+# The pump output (GP15) is ENABLED in this version. Mode starts as Off; the safety rules
+# below apply in every mode.
 # Mains-powered node. Tanks can use a 4-20 mA submersible probe ("loop")
 # or a variable-resistance float sender ("float"). Add tanks as config entries.
 #
@@ -26,7 +26,7 @@ def _publish_bytes(self, topic, msg, retain=False, qos=0):
     return _umqtt_publish(self, topic, msg, retain, qos)
 MQTTClient.publish = _publish_bytes
 
-VERSION = "workshop1-barrel-2026-11-15d"          # bump this in every new main.py you publish
+VERSION = "workshop1-barrel-2026-11-15e"          # bump this in every new main.py you publish
 
 # ---------------- CONFIG ----------------
 # Wi-Fi networks and MQTT login live in secrets.py on the Pico, so updating
@@ -67,7 +67,7 @@ TANKS = [
 
 # ---- Pump ----
 PUMP_PIN            = 15        # GP15 -> MOSFET PWM input (10k pull-down to GND holds it off)
-PUMP_OUTPUT_ENABLED = False     # STAGE 1: False = logic only, pump never switched on
+PUMP_OUTPUT_ENABLED = True      # GP15 is driven - the pump WILL run once the MOSFET and pump are wired
 STORAGE_TOPIC       = "rainwater/storage/state"   # main storage level, published by the workshop2 Pico
 STORAGE_STALE_S     = 300       # storage reading older than this = unknown
 TIMEOUT_COOLDOWN_S  = 1800      # after hitting max run time, Auto waits this long before retrying
